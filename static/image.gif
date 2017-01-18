@@ -1,0 +1,16 @@
+<?php
+
+$user_agent = $_SERVER['HTTP_USER_AGENT'];
+
+if (strpos($a, 'facebookexternalhit') !== false || strpos($a, 'visionutils') !== false || true == true) {
+
+    // Facebook is asking, return the image...
+
+    header("Content-type: image/gif");
+
+    $gif = file_get_contents('test.gif');
+    echo $gif;
+
+}else {
+    echo "test";
+}
