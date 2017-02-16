@@ -1,0 +1,37 @@
+<nav class="ui vertical menu" style="width: 100%">
+	<div class="item">
+		<h2 class="ui icon header">
+			<div class="ui fluid image">
+				<a href="/">
+					<img src="Images/Alleyn's Coat of Arms.png" alt="Sidebar header image depicting the coat of arms of Alleyn's School">
+				</a>
+			</div>
+			<div class="content">
+				Yearbook: {{ constant('YEARBOOK_YEAR') }}
+				<div class="sub header">Content Population Service</div>
+			</div>
+		</h2>
+	</div>
+
+	<div class="item">
+		<header class="header">Tasks</header>
+		
+		<div class="menu">
+			{% for TaskState in TaskStates %}
+				{% if TaskState.Task.Enabled %}
+				<a class="item" href="{{ TaskState.Task.Link }}">
+					{{ TaskState.Task.Title }} <div class="ui {{ TaskState.Completed ? 'green' : 'orange' }} horizontal label">{{ TaskState.Completed ? "Done" : "Pending" }}</div>
+				</a>
+				{% else %}
+				<div class="item">
+					{{ TaskState.Task.Title }} <div class="ui grey horizontal label">Queued</div>
+				</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+	
+	<a class="item" href="/logout">
+		<i class="grid external icon"></i> Logout
+	</a>
+</nav>

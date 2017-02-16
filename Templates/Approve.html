@@ -1,0 +1,39 @@
+{% extends "Modules/Base.html" %}
+
+{% block Content %}
+<table>
+	<thead>
+		<tr>
+			<th>Award Proposal</th>
+			<th>Author</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for AwardProposal in AwardProposals %}
+		<tr>
+			<td>{{ AwardProposal.Description }}</td>
+			<td>{{ AwardProposal.Student.Forename }} {{ AwardProposal.Student.Surname }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+<hr>
+
+<table>
+	<thead>
+		<tr>
+			<th>Question Proposal</th>
+			<th>Author</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for QuestionProposal in QuestionProposals %}
+		<tr>
+		<td>{{ QuestionProposal.Question }}</td>
+			<td>{{ QuestionProposal.Student.Forename }} {{ QuestionProposal.Student.Surname }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

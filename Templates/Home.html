@@ -1,0 +1,28 @@
+{% extends "Modules/Content with Sidebar.html" %}
+
+{% block MainContent %}
+<div class="ui teal segment">
+	<h1>Alleyn's Leavers Yearbook</h1>
+	<p>This year we've simplified the task of collecting everyone's information for the Yearbook and are using this online platform. To make this really easy for the team organising the yearbook make sure you submit all the relevant sections by the stated deadlines, otherwise you're just making work for other people. The award <strong><em>Least likely to succeed in anything</em></strong> will go to the last pupil to submit their yearbook.</p>
+</div>
+		
+<div class="ui segment">
+	<h3>Who am I writing for?</h3>
+
+	{% for BiographyRequest in BiographyEntries %}
+	{{ BiographyRequest.Target.Forename }} {{ BiographyRequest.Target.Surname }}<br>
+	{% else %}
+	No one has chosen you yet, but fear not. You can choose up to 5 people and so you may be asked to write something later on.
+	{% endfor %}
+</div>
+
+<div class="ui segment">
+	<h3>How does this work?</h3>
+	<p>The menu on the left shows which sections of your yearbook still need to be done. Anything in <span class="ui green horizontal label">green</span> is finalized and requires no further attention. Anything in <span class="ui orange horizontal label">orange</span> is pending and you should fill these sections out ASAP. Anything <span class="ui grey horizontal label">grey</span> will need to be filled out in the future, but not right now so you can ignore those and chill.<br>Once a section is completed it will change from orange to green. When a new section becomes available to fill in you'll hear about it on the Hub. If you're unsure what you need to do ask one of the team.</p>
+</div>
+
+<div class="ui segment">
+	<h3>Still don't get it, halp pl0x</h3>
+	<p>Ask Tiger, Niamh, Ben, Oscar or Phóebe if you are at all unsure. Please be noted that your query may be prioritised depending on votes placed for these people.</p>
+</div>
+{% endblock %}

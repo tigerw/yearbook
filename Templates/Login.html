@@ -1,0 +1,56 @@
+{% extends "Modules/Base.html" %}
+
+{% block Content %}
+<style type="text/css">
+	body
+	{
+	  background-color: #DADADA;
+	}
+	body > .grid
+	{
+	  height: 100%;
+	}
+	.image
+	{
+	  margin-top: -100px;
+	}
+	.column
+	{
+	  max-width: 450px;
+	}
+</style>
+
+<div class="ui middle aligned center aligned grid">
+	<div class="left aligned column">
+		<h2 class="ui teal header">
+			<img class="image" src="Images/Yearbook.png" alt="Header image depicting yearbook graphic">
+			<div class="content">
+				Yearbook
+				<div class="sub header">Content Population Service</div>
+			</div>
+		</h2>
+		
+		<form class="ui large form" method="post" action="/login">
+			<div class="ui segment">
+				<div class="field">
+					<label>Uniware Card Number</label>
+					<input type="text" name="StudentId" placeholder="Uniware Card Number">
+				</div>
+				
+				<div class="field">
+					<label>Surname</label>
+					<input style="text-transform: uppercase" type="text" name="Surname" placeholder="Smiddy">
+				</div>
+				
+				<input type="submit" value="Login" class="ui large teal submit button">
+			</div>
+		</form>
+		
+		{% if AttemptedAndUnsuccessful %}
+		<div class="ui red message">
+			Login was unsuccessful.
+		</div>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}

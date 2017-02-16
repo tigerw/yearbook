@@ -1,0 +1,39 @@
+{% extends "Modules/Content with Sidebar.html" %}
+
+{% block MainContent %}
+<div class="ui teal segment">
+	<h1>Propose a question</h1>
+	<p>Enter one or more questions which you wish to put forth for consideration. If accepted, the question will enter a pool of questions which people can choose from to answer.</p>
+</div>
+
+{% for Proposal in Proposals %}
+<div class="ui positive icon message">
+	<i class="checkmark icon"></i>
+	<div class="content">
+		<div class="header">
+			You've made a proposal.
+		</div>
+		<blockquote style="font-family: monospace">{{ Proposal.Question }}</blockquote>
+	</div>
+</div>
+{% else %}
+<div class="ui info icon message">
+	<i class="warning icon"></i>
+	<div class="content">
+		<div class="header">
+			Please note!
+		</div>
+		We can see who has proposed each question. Try <em>not</em> to write something that you'll regret later.
+	</div>
+</div>
+{% endfor %}
+
+<div class="ui segment">
+	<form class="ui form" method="post" action="/question">
+		<div class="ui action input">
+			<input type="text" name="Question" placeholder="Favourite teacher quote?">
+			<input type="submit" value="Submit" class="ui teal submit button">
+		</div>
+	</form>
+</div>
+{% endblock %}

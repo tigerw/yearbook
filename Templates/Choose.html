@@ -1,0 +1,105 @@
+{% extends "Modules/Content with Sidebar.html" %}
+
+{% block MainContent %}
+<div class="ui teal segment">
+	<h1>Choose Your Authors</h1>
+	<p>Enter the 5 people that you'd like to ask to author your yearbook entry. The 5 people will recieve a notification asking them to write a paragraph about you.</p>
+</div>
+
+<div class="ui warning icon message">
+	<i class="puzzle icon"></i>
+	<div class="content">
+		<div class="header">
+			Apple browser compatibility.
+		</div>
+		Submissions on this page won't work on any version of Safari because Apple don't seem to be interested in supporting industry standard functionality.
+	</div>
+</div>
+
+{% for Entry in BiographyEntries %}
+{% set AuthorName = Entry.Author.Forename ~ " " ~ Entry.Author.Surname %}
+
+<div class="ui positive icon message">
+	<i class="write icon"></i>
+	<div class="content">
+		<div class="header">
+			You've requested a biography.
+		</div>
+		<blockquote style="font-family: monospace">{{ AuthorName }}</blockquote>
+	</div>
+</div>
+{% else %}
+<div class="ui info icon message">
+	<i class="warning icon"></i>
+	<div class="content">
+		<div class="header">
+			Please note!
+		</div>
+		Once you make a choice, you cannot undo it. Please double-check!
+	</div>
+</div>
+{% endfor %}
+
+{% if BiographyEntries|length < 5 %}
+<datalist id="students">
+	{% for Student in Students %}
+	<option data-value="{{ Student.StudentId }}">{{ Student.Forename }} {{ Student.Surname }}</option>
+	{% endfor %}
+</datalist>
+
+<form class="ui form segment" method="post" action="/choose">
+	<table class="ui celled striped table">
+		<thead>
+			<tr>
+				<th>Author</th>
+				<th>Submit</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+					<input type="text" id="AuthorStudentName" list="students" autocomplete="off">
+					<input type="hidden" name="AuthorStudentId" id="AuthorStudentId">
+				</td>
+				<td>
+					<input type="submit" value="Submit" name="Submit{{ Number }}" class="ui teal submit button">
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+{% endif %}
+
+{% if not OperationSuccessful %}
+<div class="ui red message">
+	Your choice was invalid. Please type better.
+</div>
+{% endif %}
+
+<script>
+	document.getElementById('AuthorStudentName').addEventListener(
+		'input',
+		function(e)
+		{
+			var input = e.target,
+				list = input.getAttribute('list'),
+				options = document.querySelectorAll('#' + list + ' option'),
+				hiddenInput = document.getElementById('AuthorStudentId'),
+				
+			inputValue = input.value;
+			hiddenInput.value = inputValue;
+
+			for(var i = 0; i < options.length; i++)
+			{
+				var option = options[i];
+
+				if(option.innerText === inputValue)
+				{
+					hiddenInput.value = option.getAttribute('data-value');
+					break;
+				}
+			}
+		}
+	);
+</script>
+{% endblock %}
