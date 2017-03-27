@@ -31,17 +31,17 @@ class TaskState
 
 		foreach (
 			array(
-				new Task('/think', 'Come up with awards', true),
-				new Task('/question', 'Come up with questions', true),
-				new Task('/choose', 'Choose 5 people to author', true),
-				new Task('/vote', 'Vote for awards', false),
-				new Task('/write', 'Write your entries', false),
-				new Task('/photograph', 'Add your profile photos', false),
-				new Task('/answer', 'Answer questions', false)
+				new Task('/think', 'Come up with awards', Task::Complete),
+				new Task('/question', 'Come up with questions', Task::Complete),
+				new Task('/choose', 'Choose people to author', Task::Complete),
+				new Task('/write', 'Write your entries', Task::Available),
+				new Task('/vote', 'Vote for awards', Task::Queued),
+				new Task('/answer', 'Answer questions', Task::Queued),
+				new Task('/photograph', 'Add your profile photos', Task::Queued)
 			) as $Key => $Task
 		)
 		{
-			if (!$Task->Enabled)
+			if (!$Task->Status === Task::Available)
 			{
 				$TaskStates[] = new DisabledTaskState($Task);
 				continue;
@@ -56,9 +56,10 @@ class TaskState
 	{
 		switch ($Key)
 		{
-			case 0: return !empty($GLOBALS['YearbookModel']->FindAwardProposalsByStudentId($_SESSION['StudentId']));
-			case 1: return !empty($GLOBALS['YearbookModel']->FindQuestionProposalsByStudentId($_SESSION['StudentId']));
+			case 0: return !empty($GLOBALS['YearbookModel']->FindAwardsByStudentId($_SESSION['StudentId']));
+			case 1: return !empty($GLOBALS['YearbookModel']->FindQuestionsByStudentId($_SESSION['StudentId']));
 			case 2: return (count($GLOBALS['YearbookModel']->FindBiographiesByTargetStudentId($_SESSION['StudentId'])) === 5);
+			case 4: return !empty($GLOBALS['YearbookModel']->FindAwardVotesByVotingStudentId($_SESSION['StudentId']));
 			default: return false;
 		}
 	}

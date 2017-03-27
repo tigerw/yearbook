@@ -1,0 +1,72 @@
+{% extends "Modules/Content with Sidebar.html" %}
+
+{% block MainContent %}
+<div class="ui teal segment">
+	<h1>Vote for awards</h1>
+	<p>I honestly have no idea what half of these awards even refer to, or mean. But just choose who you think most fits the description, I guess?</p>
+	<p>You guys are <em>the worst</em> at spelling, punctuation, and grammar. Thanks for the extra work for the proofreading!</p>
+	<p>◊ represents an Editor's Note.</p>
+	<p>Wall of text, <em>incoming!</em></p>
+</div>
+
+<datalist id="students">
+	{% for Student in Students %}
+	<option data-value="{{ Student.StudentId }}">{{ Student.Forename }} {{ Student.Surname }}</option>
+	{% endfor %}
+</datalist>
+
+{% if not OperationSuccessful %}
+<div class="ui negative icon message">
+	<i class="thumbs outline down icon"></i>
+	<div class="content">
+		<div class="header">Your choice was invalid.</div>
+		<p>Please type better.</p>
+	</div>
+</div>
+{% endif %}
+
+{% set GroupedAwardVotes = AwardVotes|AwardVotesAwardIdGroup %}
+
+<div class="ui segment">
+	<table class="ui celled striped table">
+		<thead>
+			<th>Award</th>
+			<th>Vote placement</th>
+			<th>Submit</th>
+		</thead>
+		
+		<tbody>
+		{% for Award in Awards %}
+			<tr>
+				<form method="post">
+					<td>{{ Award.Description }}</td>
+					
+					{% if GroupedAwardVotes[Award.AwardId] is empty %}
+					<td class="candidateinput">
+						<input type="text" class="candidatestudentname" required="required" list="students" autocomplete="off" placeholder="Start typing to search">
+						<input type="hidden" required="required" name="CandidateStudentId" class="candidatestudentid">
+					</td>
+					<td>
+						<input type="hidden" required="required" name="AwardId" value="{{ Award.AwardId }}">
+						<input type="submit" class="ui teal submit button" value="Vote">
+					</td>
+					{% else %}
+					<td>
+					{% for AwardVote in GroupedAwardVotes[Award.AwardId] %}
+						{{ AwardVote.CandidateStudent.Forename }} {{ AwardVote.CandidateStudent.Surname }}
+						<br>
+					{% endfor %}
+					</td>
+					<td>
+						<input type="submit" value="Vote" disabled="disabled">
+					</td>
+					{% endif %}
+				</form>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+<script src="/Images/Datalist Key-Value Associator.js"></script>
+{% endblock %}

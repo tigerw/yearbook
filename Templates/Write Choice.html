@@ -1,0 +1,29 @@
+{% extends "Modules/Content with Sidebar.html" %}
+
+{% block MainContent %}
+<div class="ui teal segment">
+	<h1>Write you entry</h1>
+	<p>You have 700 characters per Yearbook entry. You have 30 characters for the signature.</p>
+</div>
+
+<div class="ui segment">
+	<form action="/write" method="post">
+		<div class="ui form">
+			<div class="field">
+				<label>Who to write for?</label>
+				<select required="required" name="TargetStudentChoiceId">
+				{% for Biography in BiographyRequests %}
+					<option value="{{ Biography.Target.StudentId }}">{{ Biography.Target.Forename }} {{ Biography.Target.Surname }}</option>
+				{% endfor %}
+				</select>
+			</div>
+			
+			{% if BiographyRequests|length > 3 %}
+			<p>Pretty popular, aren't you? Better get started!</p>
+			{% endif %}
+			
+			<input type="submit" class="ui teal button" value="Start writing!">
+		</div>
+	</form>
+</div>
+{% endblock %}

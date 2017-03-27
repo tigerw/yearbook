@@ -3,7 +3,7 @@
 		<h2 class="ui icon header">
 			<div class="ui fluid image">
 				<a href="/">
-					<img src="Images/Alleyn's Coat of Arms.png" alt="Sidebar header image depicting the coat of arms of Alleyn's School">
+					<img src="/Images/Alleyn's Coat of Arms.png" alt="Sidebar header image depicting the coat of arms of Alleyn's School">
 				</a>
 			</div>
 			<div class="content">
@@ -18,11 +18,15 @@
 		
 		<div class="menu">
 			{% for TaskState in TaskStates %}
-				{% if TaskState.Task.Enabled %}
+				{% if TaskState.Task.Status == constant('Available', TaskState.Task) %}
 				<a class="item" href="{{ TaskState.Task.Link }}">
 					{{ TaskState.Task.Title }} <div class="ui {{ TaskState.Completed ? 'green' : 'orange' }} horizontal label">{{ TaskState.Completed ? "Done" : "Pending" }}</div>
 				</a>
-				{% else %}
+				{% elseif TaskState.Task.Status == constant('Complete', TaskState.Task) %}
+				<div class="item">
+					{{ TaskState.Task.Title }} <div class="ui pink horizontal label">Complete</div>
+				</div>
+				{% elseif TaskState.Task.Status == constant('Queued', TaskState.Task) %}
 				<div class="item">
 					{{ TaskState.Task.Title }} <div class="ui grey horizontal label">Queued</div>
 				</div>

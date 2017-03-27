@@ -9,6 +9,19 @@ if (!Authenticator::IsLoggedIn())
 	return;
 }
 
+if (isset($_POST['DeleteEntryId']))
+{
+	try
+	{
+		$GLOBALS['YearbookModel']->RemoveBiographyEntry($_SESSION['StudentId'], $_POST['DeleteEntryId']);
+	}
+	catch (MeekroDBException $DBException)
+	{
+		// Swallow :(
+		// If we could distinguish between an ownership check failure versus a DB error, we could return appropriate error codes...
+	}
+}
+
 $AddSuccess = true;
 if (isset($_POST['AuthorStudentId']))
 {

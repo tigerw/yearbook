@@ -14,7 +14,8 @@ $Template = new Twig_Environment(new Twig_Loader_Filesystem(array('Templates', '
 $Template->display(
 	'Home.html',
 	array(
-		'BiographyEntries' => $GLOBALS['YearbookModel']->FindBiographiesByAuthorStudentId($_SESSION['StudentId']),
+		'BiographyAuthorRequests' => $GLOBALS['YearbookModel']->FindBiographiesByAuthorStudentId($_SESSION['StudentId']),
+		'BiographyTargetRequests' => $GLOBALS['YearbookModel']->FindBiographiesByTargetStudentId($_SESSION['StudentId']),
 		'TaskStates' => TaskState::GetTaskStates()
 	)
 );

@@ -2,7 +2,7 @@
 
 {% block MainContent %}
 <div class="ui teal segment">
-	<h1>Choose Your Authors</h1>
+	<h1>Choose your authors</h1>
 	<p>Enter the 5 people that you'd like to ask to author your yearbook entry. The 5 people will recieve a notification asking them to write a paragraph about you.</p>
 </div>
 
@@ -16,29 +16,39 @@
 	</div>
 </div>
 
-{% for Entry in BiographyEntries %}
-{% set AuthorName = Entry.Author.Forename ~ " " ~ Entry.Author.Surname %}
-
-<div class="ui positive icon message">
+{% if BiographyEntries|length > 0 %}
+<div class="ui attached positive message">
 	<i class="write icon"></i>
-	<div class="content">
-		<div class="header">
-			You've requested a biography.
-		</div>
-		<blockquote style="font-family: monospace">{{ AuthorName }}</blockquote>
-	</div>
+	You've requested one or more biographies.
 </div>
-{% else %}
-<div class="ui info icon message">
-	<i class="warning icon"></i>
-	<div class="content">
-		<div class="header">
-			Please note!
-		</div>
-		Once you make a choice, you cannot undo it. Please double-check!
-	</div>
+<table class="ui attached celled table">
+	<thead>
+		<tr>
+			<th>Author</th>
+			<th>Edit</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for Entry in BiographyEntries %}
+	{% set AuthorName = Entry.Author.Forename ~ " " ~ Entry.Author.Surname %}
+		<tr>
+			<td>
+				<blockquote style="font-family: monospace">{{ AuthorName }}</blockquote>
+			</td>
+			<td>
+				<form class="ui form" method="post" action="/choose">
+					<input type="hidden" name="DeleteEntryId" value="{{ Entry.EntryId }}">
+					<input type="submit" value="Delete" class="ui red submit button">
+				</form>
+			</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+<div class="ui bottom attached warning message">
+	You have used {{ BiographyEntries|length }} out of 5 of your available entries.
 </div>
-{% endfor %}
+{% endif %}
 
 {% if BiographyEntries|length < 5 %}
 <datalist id="students">
@@ -57,12 +67,12 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td>
-					<input type="text" id="AuthorStudentName" list="students" autocomplete="off">
-					<input type="hidden" name="AuthorStudentId" id="AuthorStudentId">
+				<td class="candidateinput">
+					<input type="text" class="candidatestudentname" required="required" list="students" autocomplete="off">
+					<input type="hidden" required="required" name="AuthorStudentId" class="candidatestudentid">
 				</td>
 				<td>
-					<input type="submit" value="Submit" name="Submit{{ Number }}" class="ui teal submit button">
+					<input type="submit" value="Submit" class="ui teal submit button">
 				</td>
 			</tr>
 		</tbody>
@@ -71,35 +81,10 @@
 {% endif %}
 
 {% if not OperationSuccessful %}
-<div class="ui red message">
+<div class="ui negative message">
 	Your choice was invalid. Please type better.
 </div>
 {% endif %}
 
-<script>
-	document.getElementById('AuthorStudentName').addEventListener(
-		'input',
-		function(e)
-		{
-			var input = e.target,
-				list = input.getAttribute('list'),
-				options = document.querySelectorAll('#' + list + ' option'),
-				hiddenInput = document.getElementById('AuthorStudentId'),
-				
-			inputValue = input.value;
-			hiddenInput.value = inputValue;
-
-			for(var i = 0; i < options.length; i++)
-			{
-				var option = options[i];
-
-				if(option.innerText === inputValue)
-				{
-					hiddenInput.value = option.getAttribute('data-value');
-					break;
-				}
-			}
-		}
-	);
-</script>
+<script src="/Images/Datalist Key-Value Associator.js"></script>
 {% endblock %}

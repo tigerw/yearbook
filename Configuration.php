@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+set_include_path(get_include_path() . PATH_SEPARATOR . $_SERVER['DOCUMENT_ROOT']);
+
 require_once 'Controllers/Task State.php';
 require_once 'Models/Yearbook Entity Model.php';
 

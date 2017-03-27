@@ -1,0 +1,24 @@
+{% extends "Modules/Base.html" %}
+
+{% block Content %}
+<table>
+	<thead>
+		<tr>
+			<th>Target</th>
+			<th>Author</th>
+			<th>Content</th>
+			<th>Progress out of 700 characters</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for Biography in Biographies|FirstNameBiographiesSort %}
+		<tr>
+			<td>{{ Biography.Target.Forename }} {{ Biography.Target.Surname }}</td>
+			<td>{{ Biography.Author.Forename }} {{ Biography.Author.Surname }}</td>
+			<td>{{ Biography.Content }}</td>
+			<td>{{ Biography.Content|length }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

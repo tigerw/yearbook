@@ -5,15 +5,31 @@
 	<h1>Alleyn's Leavers Yearbook</h1>
 	<p>This year we've simplified the task of collecting everyone's information for the Yearbook and are using this online platform. To make this really easy for the team organising the yearbook make sure you submit all the relevant sections by the stated deadlines, otherwise you're just making work for other people. The award <strong><em>Least likely to succeed in anything</em></strong> will go to the last pupil to submit their yearbook.</p>
 </div>
-		
-<div class="ui segment">
-	<h3>Who am I writing for?</h3>
 
-	{% for BiographyRequest in BiographyEntries %}
-	{{ BiographyRequest.Target.Forename }} {{ BiographyRequest.Target.Surname }}<br>
-	{% else %}
-	No one has chosen you yet, but fear not. You can choose up to 5 people and so you may be asked to write something later on.
-	{% endfor %}
+<div class="ui two column grid">
+	<div class="column">
+		<div class="ui horizontal segment">
+			<h3>Who am I writing for?</h3>
+		
+			{% for BiographyRequest in BiographyAuthorRequests %}
+			{{ BiographyRequest.Target.Forename }} {{ BiographyRequest.Target.Surname }}<br>
+			{% else %}
+			No one has chosen you yet, but fear not. You can choose up to 5 people and so you may be asked to write something later on.
+			{% endfor %}
+		</div>
+	</div>
+
+	<div class="column">
+		<div class="ui horizontal segment">
+			<h3>Who do I want to write for me?</h3>
+		
+			{% for BiographyRequest in BiographyTargetRequests %}
+			{{ BiographyRequest.Author.Forename }} {{ BiographyRequest.Author.Surname }}<br>
+			{% else %}
+			You haven't chosen anyone to write for you yet. Remember, you'll need to fill up those five choices!
+			{% endfor %}
+		</div>
+	</div>
 </div>
 
 <div class="ui segment">

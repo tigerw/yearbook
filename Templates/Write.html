@@ -1,0 +1,31 @@
+{% extends "Modules/Content with Sidebar.html" %}
+
+{% block MainContent %}
+<div class="ui teal segment">
+	<h1>Write you entry</h1>
+	<p>You have 700 characters per Yearbook entry. You have 30 characters for the signature.</p>
+	<p>You are advised to work locally (i.e. Word). This way you can also retain a copy for your records. Reliability cannot be guaranteed in this online editor.</p>
+</div>
+
+<div class="ui segment">
+	<form action="/write/{{ Biography.Target.StudentId }}" method="post">
+		<div class="ui form">
+			<div class="field">
+				<label>Writing</label>
+				<textarea name="Content" maxlength="700" placeholder="Best friends forever! Don't change your number without telling me. Question: does Facebook solve this problem?">{{ Biography.Content }}</textarea>
+			</div>
+
+			<div class="field">
+				<label>Signature</label>
+				<textarea rows="1" name="Signature" placeholder="All the best, from Donald Trump" maxlength="30">{{ Biography.Signature }}</textarea>
+			</div>
+
+			<div class="ui buttons">
+				<input type="submit" class="ui positive button" value="Save">
+				<div class="or"></div>
+				<input type="reset" class="ui negative button" value="Clear">
+			</div> for <strong>{{ Biography.Target.Forename }} {{ Biography.Target.Surname }}</strong>.
+		</div>
+	</form>
+</div>
+{% endblock %}

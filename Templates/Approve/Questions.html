@@ -1,0 +1,26 @@
+{% extends "Modules/Base.html" %}
+
+{% block Content %}
+<form method="post">
+	<table>
+		<thead>
+			<tr>
+				<th>Approve</th>
+				<th>Question Proposal</th>
+				<th>Author</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for QuestionProposal in QuestionProposals %}
+			<tr>
+				<td><input type="checkbox" name="QuestionApprovals[]" value="{{ QuestionProposal.QuestionId }}" {{ QuestionProposal.Approved == 1 ? 'checked="checked" disabled="disabled"' : '' }}></td>
+				<td>{{ QuestionProposal.Question }}</td>
+				<td>{{ QuestionProposal.Student.Forename }} {{ QuestionProposal.Student.Surname }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	<input type="submit">
+</form>
+{% endblock %}
