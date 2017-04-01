@@ -1,6 +1,17 @@
 <?php
 require_once 'Models/Task.php';
 
+class TaskIds
+{
+	const Think = 0;
+	const Question = 1;
+	const Choose = 2;
+	const Write = 3;
+	const Vote = 4;
+	const Answer = 5;
+	const Photograph = 6;
+}
+
 class EnabledTaskState
 {
 	public function __construct($Task, $Completed)
@@ -31,13 +42,13 @@ class TaskState
 
 		foreach (
 			array(
-				new Task('/think', 'Come up with awards', Task::Complete),
-				new Task('/question', 'Come up with questions', Task::Complete),
-				new Task('/choose', 'Choose people to author', Task::Complete),
-				new Task('/write', 'Write your entries', Task::Available),
-				new Task('/vote', 'Vote for awards', Task::Queued),
-				new Task('/answer', 'Answer questions', Task::Queued),
-				new Task('/photograph', 'Add your profile photos', Task::Queued)
+				TaskIds::Think => new Task('/think', 'Come up with awards', Task::Complete),
+				TaskIds::Question => new Task('/question', 'Come up with questions', Task::Complete),
+				TaskIds::Choose => new Task('/choose', 'Choose people to author', Task::Complete),
+				TaskIds::Write => new Task('/write', 'Write your entries', Task::Complete),
+				TaskIds::Vote => new Task('/vote', 'Vote for awards', Task::Queued),
+				TaskIds::Answer => new Task('/answer', 'Answer questions', Task::Queued),
+				TaskIds::Photograph => new Task('/photograph', 'Add your profile photos', Task::Queued)
 			) as $Key => $Task
 		)
 		{
@@ -56,10 +67,10 @@ class TaskState
 	{
 		switch ($Key)
 		{
-			case 0: return !empty($GLOBALS['YearbookModel']->FindAwardsByStudentId($_SESSION['StudentId']));
-			case 1: return !empty($GLOBALS['YearbookModel']->FindQuestionsByStudentId($_SESSION['StudentId']));
-			case 2: return (count($GLOBALS['YearbookModel']->FindBiographiesByTargetStudentId($_SESSION['StudentId'])) === 5);
-			case 4: return !empty($GLOBALS['YearbookModel']->FindAwardVotesByVotingStudentId($_SESSION['StudentId']));
+			case TaskIds::Think: return !empty($GLOBALS['YearbookModel']->FindAwardsByStudentId($_SESSION['StudentId']));
+			case TaskIds::Question: return !empty($GLOBALS['YearbookModel']->FindQuestionsByStudentId($_SESSION['StudentId']));
+			case TaskIds::Choose: return (count($GLOBALS['YearbookModel']->FindBiographiesByTargetStudentId($_SESSION['StudentId'])) === 5);
+			case TaskIds::Vote: return !empty($GLOBALS['YearbookModel']->FindAwardVotesByVotingStudentId($_SESSION['StudentId']));
 			default: return false;
 		}
 	}

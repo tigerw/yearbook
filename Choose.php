@@ -9,6 +9,13 @@ if (!Authenticator::IsLoggedIn())
 	return;
 }
 
+$TaskStates = TaskState::GetTaskStates();
+if ($TaskStates[TaskIds::Choose]->Task->Status != Task::Available)
+{
+	http_response_code(403);
+	return;
+}
+
 if (isset($_POST['DeleteEntryId']))
 {
 	try
@@ -42,6 +49,6 @@ $Template->display(
 		'Students' => $GLOBALS['YearbookModel']->FindStudents(),
         'BiographyEntries' => $GLOBALS['YearbookModel']->FindBiographiesByTargetStudentId($_SESSION['StudentId']),
         'OperationSuccessful' => $AddSuccess, 
-		'TaskStates' => TaskState::GetTaskStates()
+		'TaskStates' => $TaskStates
 	)
 );

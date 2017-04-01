@@ -10,8 +10,14 @@ if (!Authenticator::IsLoggedIn())
 	return;
 }
 
-$Template = new Twig_Environment(new Twig_Loader_Filesystem(array('Templates', 'Templates/Modules')), array('cache' => '../Cache', 'auto_reload' => true));
+$TaskStates = TaskState::GetTaskStates();
+if ($TaskStates[TaskIds::Write]->Task->Status != Task::Available)
+{
+	http_response_code(403);
+	return;
+}
 
+$Template = new Twig_Environment(new Twig_Loader_Filesystem(array('Templates', 'Templates/Modules')), array('cache' => '../Cache', 'auto_reload' => true));
 if (isset($_GET['ParameterA']))
 {
 	$Biography = $GLOBALS['YearbookModel']->FindBiographyByAuthorTargetStudentIds($_SESSION['StudentId'], $_GET['ParameterA']);
@@ -30,7 +36,7 @@ if (isset($_GET['ParameterA']))
 		$GLOBALS['YearbookModel']->EditBiographyEntry($Biography);
 	}
 	
-	$Template->display('Write.html', array('TaskStates' => TaskState::GetTaskStates(), 'Biography' => $Biography));
+	$Template->display('Write.html', array('TaskStates' => $TaskStates, 'Biography' => $Biography));
 }
 else
 {
@@ -40,5 +46,5 @@ else
 		return;
 	}
 	
-	$Template->display('Write Choice.html', array('TaskStates' => TaskState::GetTaskStates(), 'BiographyRequests' => $GLOBALS['YearbookModel']->FindBiographiesByAuthorStudentId($_SESSION['StudentId'])));
+	$Template->display('Write Choice.html', array('TaskStates' => $TaskStates, 'BiographyRequests' => $GLOBALS['YearbookModel']->FindBiographiesByAuthorStudentId($_SESSION['StudentId'])));
 }

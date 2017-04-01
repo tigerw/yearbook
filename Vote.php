@@ -10,6 +10,13 @@ if (!Authenticator::IsLoggedIn())
 	return;
 }
 
+$TaskStates = TaskState::GetTaskStates();
+if ($TaskStates[TaskIds::Vote]->Task->Status != Task::Available)
+{
+	http_response_code(403);
+	return;
+}
+
 $AddSuccess = true;
 if (isset($_POST['AwardId']) && isset($_POST['CandidateStudentId']))
 {
@@ -43,7 +50,7 @@ $Template->addFilter(
 $Template->display(
 	'Vote.html',
 	array(
-		'TaskStates' => TaskState::GetTaskStates(), 
+		'TaskStates' => $TaskStates, 
 		'Students' => $GLOBALS['YearbookModel']->FindStudents(),
 		'Awards' => $GLOBALS['YearbookModel']->FindApprovedAwards(),
 		'AwardVotes' => $GLOBALS['YearbookModel']->FindAwardVotesByVotingStudentId($_SESSION['StudentId']),
