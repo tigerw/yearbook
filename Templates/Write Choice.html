@@ -18,10 +18,7 @@
 				</select>
 			</div>
 			
-			{% if BiographyRequests|length > 3 %}
-			<p>Pretty popular, aren't you? Better get started!</p>
-			{% endif %}
-			
+			<p>You have been requested to author {{ BiographyRequests|length }} {{ BiographyRequests|length == 1 ? 'entry' : 'entries' }}.</p>			
 			<input type="submit" class="ui teal button" value="Start writing!">
 		</div>
 	</form>
